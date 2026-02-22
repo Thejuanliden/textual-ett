@@ -70,6 +70,8 @@ class Stopwatch(Static):
 class StopwatchApp(App):
     BINDINGS = [
         ("d", "toggle_dark", "Toggle dark mode"),
+        ("a", "add_stopwatch", "Add a stopwatch"),
+        ("r", "remove_stopwatch", "Remove a stopwatch"),
     ]
     CSS_PATH = "stopwatch.css"
 
@@ -81,6 +83,17 @@ class StopwatchApp(App):
             yield Stopwatch()
             yield Stopwatch()
             yield Stopwatch()
+
+    def action_add_stopwatch(self):
+        stopwatch = Stopwatch()
+        container = self.query_one("#stopwatches")
+        container.mount(stopwatch)
+        container.scroll_visible()
+
+    def action_remove_stopwatch(self):
+        stopwatches = self.query(Stopwatch)
+        if stopwatches:
+            stopwatches.last().remove()
 
 
 if __name__ == "__main__":
